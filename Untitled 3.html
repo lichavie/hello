@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="time">
+        现在是{{ message }}</div>
+        <div id = "menu">
+        <ol>
+        <menu-item v-for="item in menulist"
+        v-bind:item = "item"
+        v-bind:sum = "sum"
+        v-bind:key = "item.id"></menu-items
+        >
+        </ol>
+        你总共花费{{ sum }}元
+        </div>
+<script type = "text/javascript">
+var clock = new Vue({
+  el: '#time',
+  data: {
+    message: ''
+  }
+});
+var timerID = setInterval(updateTime, 1000);
+updateTime();
+function updateTime(){
+	clock.message = new Date().toLocaleString();
+};
+Vue.component(
+'menu-item',
+{
+	props:['item', 'sum','menulist'],
+	template:'<li>{{ item.text }} {{ item.cost }}元  <button v-if="item.num>0" v-on:click="item.num-=1, sum-=item.cost">➖</button>{{item.num}} {{ sum }}<button v-on:click="item.num+=1">➕</button></li>'
+}
+)
+menu = new Vue({
+	el:'#menu',
+	data:{
+		menulist:[
+		{id: 0, text: "汉堡",cost:5,num:1},
+		{id: 1, text: "薯条",cost:10, num:0},
+		{id: 2, text: "冰激凌",cost:15, num: 0}
+		],
+		sum:0
+	},
+	computed:{
+		sumc: function(){
+			var sum = 0;
+			for (item in this.menulist){
+				sum+=item.num*item.cost;
+			}
+			this.sum = sum;
+			return sum;
+		}
+	}
+});
+</script>
+</body>
+</html>
